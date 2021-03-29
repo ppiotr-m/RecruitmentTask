@@ -21,15 +21,23 @@ class FlightSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFlightSearchBinding.inflate(inflater)
+        init()
 
         return binding.root
     }
 
-    private fun init() {
-        navController = findNavController()
+    private fun setOnClickListener() {
+        binding.searchBtn.setOnClickListener {
+            navigateToListFragment(it)
+        }
     }
 
-    fun navigateToListFragment() {
+    private fun init() {
+        navController = findNavController()
+        setOnClickListener()
+    }
+
+    private fun navigateToListFragment(view: View) {
         navController.navigate(R.id.action_flightSearchFragment_to_flightListFragment)
     }
 

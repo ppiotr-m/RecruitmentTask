@@ -10,13 +10,13 @@ import com.example.recruitmenttask.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-    private lateinit var binding: ActivityMainBinding
+//    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        createBinding()
+//        createBinding()
         setupNavController()
     }
 
@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
             ?: return) as NavHostFragment).navController
     }
 
-    private fun createBinding() {
-        binding =
-            DataBindingUtil.setContentView(this, R.layout.activity_main)
-    }
+//    private fun createBinding() {
+//        binding =
+//            DataBindingUtil.setContentView(this, R.layout.activity_main)
+//    }
 }
