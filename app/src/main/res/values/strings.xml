@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">RecruitmentTask</string>
     <string name="search_btn">Search</string>
+    <string name="origin_station">Origin station</string>
+    <string name="destination_station">Destination station</string>
+    <string name="departure_date">Departure date:</string>
 </resources>
