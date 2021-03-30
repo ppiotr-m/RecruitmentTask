@@ -2,7 +2,7 @@ package com.example.recruitmenttask.model
 
 data class FlightsRequest(
     val dateOut: String,
-    val dateIn:String,
+//    val dateIn:String,
     val roundTrip: Boolean = false,
     val origin: String,
     val destination: String,
@@ -12,12 +12,27 @@ data class FlightsRequest(
     val flexDaysBeforeIn: Int,
     val adt: Int,
     val teen: Int,
-    val chd: Int,
-    val inf: Int,
-    val toUs: String,
-    val disc: Int
+    val chd: Int
+//    val inf: Int,
+//    val toUs: String,
+//    val disc: Int
     ) {
-    override fun toString(): String {
-        return "FlightsRequest(dateOut='$dateOut', dateIn='$dateIn', roundTrip=$roundTrip, origin='$origin', destination='$destination', flexDaysOut=$flexDaysOut, flexDaysIn=$flexDaysIn, flexDaysBeforeOut=$flexDaysBeforeOut, flexDaysBeforeIn=$flexDaysBeforeIn, adt=$adt, teen=$teen, chd=$chd, inf=$inf, toUs='$toUs', disc=$disc)"
+
+    fun getQueryMap(): Map<String, String> {
+        val map = mutableMapOf<String, String>()
+
+        map.put("dateout", dateOut)
+        map.put("roundtrip", roundTrip.toString())
+        map.put("origin", origin)
+        map.put("destination", destination)
+        map.put("flexdaysout", flexDaysOut.toString())
+        map.put("flexdaysin", flexDaysIn.toString())
+        map.put("flexdaysbeforeout", flexDaysBeforeOut.toString())
+        map.put("flexdaysbeforein", flexDaysBeforeIn.toString())
+        map.put("adt", adt.toString())
+        map.put("teen", teen.toString())
+        map.put("chd", chd.toString())
+
+        return map
     }
 }

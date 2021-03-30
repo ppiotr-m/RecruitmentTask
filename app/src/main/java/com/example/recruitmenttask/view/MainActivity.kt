@@ -2,6 +2,7 @@ package com.example.recruitmenttask.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.recruitmenttask.R
@@ -15,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        createBinding()
         setupNavController()
     }
 
@@ -23,9 +23,4 @@ class MainActivity : AppCompatActivity() {
         navController = ((supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container)
             ?: return) as NavHostFragment).navController
     }
-
-//    private fun createBinding() {
-//        binding =
-//            DataBindingUtil.setContentView(this, R.layout.activity_main)
-//    }
 }

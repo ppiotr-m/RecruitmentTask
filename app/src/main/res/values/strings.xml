@@ -4,4 +4,9 @@
     <string name="origin_station">Origin station</string>
     <string name="destination_station">Destination station</string>
     <string name="departure_date">Departure date:</string>
+    <string name="adults_label">Adults:</string>
+    <string name="teens_label">Teens:</string>
+    <string name="children_label">Children:</string>
+    <string name="network_error_msg">Network error occurred.</string>
+    <string name="input_error_msg">There is something wrong with input!</string>
 </resources>
