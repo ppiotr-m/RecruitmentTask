@@ -7,7 +7,7 @@ import retrofit2.http.GET
 
 interface FlightAPI {
 
-    @GET("https://tripstest.ryanair.com/static/stations.json")
+    @GET("/static/stations.json")
     suspend fun fetchStationsList(): Response<StationsResponse>
 
     @GET("https://www.ryanair.com/api/booking/v4/en-gb/Availability")

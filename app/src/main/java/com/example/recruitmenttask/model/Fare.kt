@@ -8,4 +8,8 @@ data class Fare(
     val publishedFare: Double,
     val discountInPercent: Double,
     val hasPromoDiscount: Boolean
-)
+) {
+    override fun toString(): String {
+        return "Fare(type='$type', amount=$amount, count=$count, hasDiscount=$hasDiscount, publishedFare=$publishedFare, discountInPercent=$discountInPercent, hasPromoDiscount=$hasPromoDiscount)"
+    }
+}

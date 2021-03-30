@@ -12,6 +12,7 @@ class FlightServiceGenerator {
 
         fun getRetrofitInstance(): Retrofit {
             retrofit = Retrofit.Builder()
+                .baseUrl("https://tripstest.ryanair.com")
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create(Gson()))
                 .build()

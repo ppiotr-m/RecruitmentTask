@@ -10,4 +10,8 @@ data class Segment(
     val time: List<String>,     //  TODO Change to LocalDateTime
     val timeUTC: List<String>,  //  TODO Change to Local DateTime
     val duration: Duration
-)
+) {
+    override fun toString(): String {
+        return "Segment(segmentNr=$segmentNr, origin='$origin', destination='$destination', flightNumber='$flightNumber', time=$time, timeUTC=$timeUTC, duration=$duration)"
+    }
+}
