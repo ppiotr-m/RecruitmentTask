@@ -6,7 +6,9 @@ import android.view.Window
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.recruitmenttask.R
+import dagger.hilt.android.AndroidEntryPoint
 
+//@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

@@ -1,6 +1,7 @@
 package com.example.recruitmenttask.viewmodel
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.example.recruitmenttask.model.StationsResponse
 import com.example.recruitmenttask.repository.Repository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
 
@@ -52,12 +54,12 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun searchForFlights() {
-
-        Log.d("flight", "searchForFlights() triggered")
-
         if(validateInput()) {
-            val originCode = stations.value!!.stations[originStationIndex].code
-            val destinationCode = stations.value!!.stations[destinationStationIndex].code
+//            val originCode = stations.value!!.stations[originStationIndex].code
+//            val destinationCode = stations.value!!.stations[destinationStationIndex].code
+
+            val originCode = "WRO"
+            val destinationCode = "DUB"
 
             val flightsRequest = FlightsRequest(
                 date.value.toString(),

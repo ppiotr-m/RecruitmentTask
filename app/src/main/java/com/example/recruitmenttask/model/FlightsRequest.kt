@@ -32,6 +32,7 @@ data class FlightsRequest(
         map.put("adt", adt.toString())
         map.put("teen", teen.toString())
         map.put("chd", chd.toString())
+        map.put("ToUs", "AGREED")
 
         return map
     }

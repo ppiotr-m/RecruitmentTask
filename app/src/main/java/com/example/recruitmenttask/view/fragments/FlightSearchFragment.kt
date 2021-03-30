@@ -92,11 +92,13 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setAutoCompleteTextViewsListeners() {
-        binding.originStationACTV.setOnItemClickListener { _, _, position, _ ->
-            flightSearchViewModel.originStationIndex = position
-        }
-        binding.destinationStationACTV.setOnItemClickListener { _, _, position, _ ->
+        binding.originStationACTV.setOnItemClickListener { parent, _, position, _ ->
             flightSearchViewModel.destinationStationIndex = position
+        }
+
+        binding.destinationStationACTV.setOnItemClickListener { parent, _, position, _ ->
+            Log.d("flight", "Destination position: " + position)
+            flightSearchViewModel.originStationIndex = position
         }
     }
 
@@ -108,11 +110,8 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             binding.selectedDateTV.text = it.toString()
         })
         flightSearchViewModel.inputErrorOccurred.observe(viewLifecycleOwner, {
-            //  TODO
-        })
-        flightSearchViewModel.inputErrorOccurred.observe(viewLifecycleOwner, {
             if(it == true) {
-                Toast.makeText(requireContext(), R.string.network_error_msg, Toast.LENGTH_LONG)
+                Toast.makeText(requireContext(), R.string.input_error_msg, Toast.LENGTH_LONG)
                     .show()
             }
         })
@@ -137,7 +136,7 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             requireContext(),
             this,
             flightSearchViewModel.date.value!!.year,
-            flightSearchViewModel.date.value!!.monthValue,
+            flightSearchViewModel.date.value!!.monthValue - 1,
             flightSearchViewModel.date.value!!.dayOfMonth
         ).show()
     }
@@ -173,6 +172,6 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        flightSearchViewModel.setDate(year, month, dayOfMonth)
+        flightSearchViewModel.setDate(year, month + 1, dayOfMonth)
     }
 }
