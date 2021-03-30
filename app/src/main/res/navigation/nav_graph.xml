@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/flightSearchFragment"
-        android:name="com.example.recruitmenttask.view.FlightSearchFragment"
+        android:name="com.example.recruitmenttask.view.fragments.FlightSearchFragment"
         android:label="fragment_flight_search"
         tools:layout="@layout/fragment_flight_search" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/flightDetailFragment"
-        android:name="com.example.recruitmenttask.view.FlightDetailFragment"
+        android:name="com.example.recruitmenttask.view.fragments.FlightDetailFragment"
         android:label="fragment_flight_detail"
         tools:layout="@layout/fragment_flight_detail" />
     <fragment
         android:id="@+id/flightListFragment"
-        android:name="com.example.recruitmenttask.view.FlightListFragment"
+        android:name="com.example.recruitmenttask.view.fragments.FlightListFragment"
         android:label="fragment_flight_list"
         tools:layout="@layout/fragment_flight_list" >
         <action

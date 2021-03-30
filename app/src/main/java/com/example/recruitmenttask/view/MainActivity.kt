@@ -1,11 +1,10 @@
-package com.example.recruitmenttask
+package com.example.recruitmenttask.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.example.recruitmenttask.databinding.ActivityMainBinding
+import com.example.recruitmenttask.R
 
 class MainActivity : AppCompatActivity() {
 

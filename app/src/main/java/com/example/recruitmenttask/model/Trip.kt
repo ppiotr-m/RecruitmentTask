@@ -5,5 +5,5 @@ data class Trip(
     val originName: String,
     val destination: String,
     val destinationName: String,
-    val dates: List<RyanairDate>,
+    val dates: List<RyanairDate>
 )

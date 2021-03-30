@@ -1,4 +1,4 @@
-package com.example.recruitmenttask.view
+package com.example.recruitmenttask.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
