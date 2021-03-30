@@ -6,10 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -92,13 +89,12 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setAutoCompleteTextViewsListeners() {
-        binding.originStationACTV.setOnItemClickListener { parent, _, position, _ ->
-            flightSearchViewModel.destinationStationIndex = position
+        binding.originStationACTV.setOnItemClickListener { _, view, _, _ ->
+            flightSearchViewModel.setOriginStationCode((view as TextView).text.toString())
         }
 
-        binding.destinationStationACTV.setOnItemClickListener { parent, _, position, _ ->
-            Log.d("flight", "Destination position: " + position)
-            flightSearchViewModel.originStationIndex = position
+        binding.destinationStationACTV.setOnItemClickListener { _, view, _, _ ->
+            flightSearchViewModel.setDestinationStationCode((view as TextView).text.toString())
         }
     }
 

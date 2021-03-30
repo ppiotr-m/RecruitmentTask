@@ -1,7 +1,6 @@
 package com.example.recruitmenttask.viewmodel
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +12,6 @@ import com.example.recruitmenttask.model.StationsResponse
 import com.example.recruitmenttask.repository.Repository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
 
@@ -36,8 +34,8 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
     var teensCount = 0
     var childrenCount = 0
 
-    var originStationIndex = -1
-    var destinationStationIndex = -1
+    private var originStationCode: String? = null
+    private var destinationStationCode: String? = null
 
     init {
         getStationsList()
@@ -55,17 +53,11 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
 
     fun searchForFlights() {
         if(validateInput()) {
-//            val originCode = stations.value!!.stations[originStationIndex].code
-//            val destinationCode = stations.value!!.stations[destinationStationIndex].code
-
-            val originCode = "WRO"
-            val destinationCode = "DUB"
-
             val flightsRequest = FlightsRequest(
                 date.value.toString(),
                 false,
-                originCode,
-                destinationCode,
+                originStationCode!!,
+                destinationStationCode!!,
                 0,
                 0,
                 0,
@@ -85,8 +77,8 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
     }
 
     private fun validateInput(): Boolean {
-        val isInputValid = ((originStationIndex >= 0 && destinationStationIndex >= 0)
-                && (date.value!!.isAfter(LocalDate.now()) || date.value!!.isEqual(LocalDate.now()))
+        val isInputValid = ((originStationCode != null && destinationStationCode != null)
+//                && (date.value!!.isAfter(LocalDate.now()) || date.value!!.isEqual(LocalDate.now()))
                 && ((adultsCount + teensCount + childrenCount) > 0))
         return if(isInputValid) {
             isInputValid
@@ -94,5 +86,23 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
             _inputErrorOccurred.value = true
             isInputValid
         }
+    }
+
+    fun setOriginStationCode(originStationCode: String) {
+        this.originStationCode = getStationCodeFromStationSelectionString(originStationCode)
+    }
+
+    fun setDestinationStationCode(destinationStationCode: String) {
+        this.destinationStationCode = getStationCodeFromStationSelectionString(destinationStationCode)
+    }
+
+    fun getStationCodeFromStationSelectionString(stationSelectionString: String): String {
+        Log.d("flight", "Selection String: " + stationSelectionString)
+
+        val indextOfLastSpace = stationSelectionString.indexOfLast { it == ' ' }
+
+        Log.d("flight", "Index of last space: " + indextOfLastSpace)
+
+        return stationSelectionString.substring(indextOfLastSpace + 2, indextOfLastSpace + 5)
     }
 }
