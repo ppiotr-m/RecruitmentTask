@@ -45,7 +45,7 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     private fun init() {
         navController = findNavController()
         initViewModel()
-        setToolbarText()
+ //       setToolbarText()
         setupRecyclerView()
     }
 

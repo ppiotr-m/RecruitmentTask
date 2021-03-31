@@ -1,6 +1,7 @@
 package com.example.recruitmenttask.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
@@ -13,5 +14,6 @@ data class Fare(
     val discountInPercent: Int,
     val hasPromoDiscount: Boolean,
     val discountAmount: Double,
-    val hasBogof: Boolean
+    @SerializedName("hasBogof")
+    val hasBogOf: Boolean
 )

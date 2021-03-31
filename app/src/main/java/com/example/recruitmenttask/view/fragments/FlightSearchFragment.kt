@@ -17,13 +17,17 @@ import com.example.recruitmenttask.model.Station
 import com.example.recruitmenttask.utils.ConstantValues.Companion.MAX_PASSENGER_SETTING_COUNT
 import com.example.recruitmenttask.viewmodel.FlightSearchViewModel
 import com.example.recruitmenttask.viewmodel.ViewModelInjection
+import java.util.concurrent.atomic.AtomicBoolean
 
 class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var binding: FragmentFlightSearchBinding
-    private lateinit var flightSearchViewModel: FlightSearchViewModel
+    private lateinit var flightSearchViewModel: FlightSearchViewModel   // TODO Rename class to SharedViewModel
     private lateinit var navController: NavController
-    val datePickerDialogMonthOffset = 1
+    private val datePickerDialogMonthOffset = 1
+    //  Since when navigation is triggered with observing, this variable prevents navigating when
+    //  reentering this fragment from following fragment with back button
+    private var shouldNavigate: AtomicBoolean = AtomicBoolean(false)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +52,7 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             showDatePickerDialog()
         }
         binding.searchBtn.setOnClickListener {
+            shouldNavigate.set(true)
             flightSearchViewModel.searchForFlights()
         }
     }
@@ -119,8 +124,14 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             }
         })
         flightSearchViewModel.flightsData.observe(viewLifecycleOwner, {
-            navigateToListFragment()
+            if(shouldNavigate.get() == true) {
+                shouldNavigate.set(false)
+                navigateToListFragment()
+            }
         })
+//        flightSearchViewModel.shouldNavigateToList.observe(viewLifecycleOwner, {
+//            navigateToListFragment()
+//        })
     }
 
     private fun navigateToListFragment() {

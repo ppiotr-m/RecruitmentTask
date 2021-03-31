@@ -13,9 +13,6 @@ data class FlightsRequest(
     val adt: Int,
     val teen: Int,
     val chd: Int
-//    val inf: Int,
-//    val toUs: String,
-//    val disc: Int
     ) {
 
     fun getQueryMap(): Map<String, String> {

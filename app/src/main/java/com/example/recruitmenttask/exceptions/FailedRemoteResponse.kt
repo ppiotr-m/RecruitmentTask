@@ -1,5 +1,4 @@
 package com.example.recruitmenttask.exceptions
 
-//  TODO Implement this
-class FailedRemoteResponse : Exception() {
+class FailedRemoteResponse(message: String) : Exception(message) {
 }
