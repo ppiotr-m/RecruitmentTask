@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.FlightListFragment">
 
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/sliderRange"
+    <com.google.android.material.slider.Slider
+        android:id="@+id/priceSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:stepSize="5"
         android:valueFrom="0"
-        android:valueTo="3500"
+        android:valueTo="1000"
+        android:value="150"
+        android:stepSize="5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sliderRange">
+        app:layout_constraintTop_toBottomOf="@+id/priceSlider">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/noFlightsOverlayMessageView"

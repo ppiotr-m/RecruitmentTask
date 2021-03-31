@@ -17,6 +17,7 @@ import com.example.recruitmenttask.view.elements.FlightListAdapter
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
 import com.example.recruitmenttask.viewmodel.FlightSharedViewModel
 import com.example.recruitmenttask.viewmodel.ViewModelInjection
+import dagger.hilt.android.AndroidEntryPoint
 
 class FlightListFragment : Fragment(), FlightListElementOnClickListener {
 

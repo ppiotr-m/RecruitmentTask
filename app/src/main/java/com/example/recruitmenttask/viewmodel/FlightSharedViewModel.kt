@@ -1,11 +1,9 @@
 package com.example.recruitmenttask.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.recruitmenttask.exceptions.FailedRemoteResponse
+import com.example.recruitmenttask.model.Flight
 import com.example.recruitmenttask.model.FlightsRequest
 import com.example.recruitmenttask.model.FlightsResponse
 import com.example.recruitmenttask.model.StationsResponse
@@ -13,6 +11,8 @@ import com.example.recruitmenttask.repository.Repository
 import com.example.recruitmenttask.utils.StationCodeRetriver
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.*
+import java.util.stream.Collectors
 
 class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
 
@@ -31,8 +31,11 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
     private val _flightsData = MutableLiveData<FlightsResponse>()
     val flightsData: LiveData<FlightsResponse> = _flightsData
 
-    private val _shouldNavigateToList = MutableLiveData<Boolean?>(false)
-    val shouldNavigateToList = _shouldNavigateToList
+    val _maxPrice = MutableLiveData(150)
+    val maxPrice: LiveData<Int> = _maxPrice
+    val filteredFlightsData: LiveData<List<Flight>> = Transformations.map(maxPrice) {
+        maxPrice -> getFlightsCheaperThanGivenPrice(maxPrice)
+    }
 
     var adultsCount = 0
     var teensCount = 0
@@ -46,14 +49,17 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
         getStationsList()
     }
 
-    fun setShouldNavigateToNull() {
-        _shouldNavigateToList.value = null
-    }
-
     private fun getStationsList() {
         viewModelScope.launch {
             _stations.value = repository.getStations()
         }
+    }
+
+    private fun getFlightsCheaperThanGivenPrice(maxPrice: Int): List<Flight> {
+        return flightsData.value!!.trips[0].dates[0].flights
+            .stream()
+            .filter { flight -> flight.regularFare.fares[0].amount <= maxPrice }
+            .collect(Collectors.toList())
     }
 
     fun setDate(year: Int, month: Int, dayOfMonth: Int) {

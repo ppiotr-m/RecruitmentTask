@@ -17,6 +17,7 @@ import com.example.recruitmenttask.utils.ConstantValues.Companion.MAX_PASSENGER_
 import com.example.recruitmenttask.view.MainActivity
 import com.example.recruitmenttask.viewmodel.FlightSharedViewModel
 import com.example.recruitmenttask.viewmodel.ViewModelInjection
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.atomic.AtomicBoolean
 
 class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {

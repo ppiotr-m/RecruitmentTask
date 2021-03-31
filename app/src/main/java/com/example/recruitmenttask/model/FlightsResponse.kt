@@ -1,7 +1,6 @@
 package com.example.recruitmenttask.model
 
 import com.example.recruitmenttask.model.local.FlightDetailModel
-import java.io.Serializable
 
 data class FlightsResponse(
     val termsOfUse: String,

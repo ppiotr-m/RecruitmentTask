@@ -1,8 +1,5 @@
 package com.example.recruitmenttask.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 data class Flight(
     val faresLeft: Int,
     val flightKey: String,

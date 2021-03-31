@@ -12,11 +12,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import javax.inject.Inject
 
-//@InstallIn(ActivityComponent::class) // TODO Inny komponent
-//@Module
-class Repository
-//@Inject constructor
-    (private val flightService: FlightAPI) {
+
+class Repository(private val flightService: FlightAPI) {
 
     suspend fun getStations(): StationsResponse {
         val response = flightService.fetchStationsList()

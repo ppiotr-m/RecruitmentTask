@@ -1,7 +1,5 @@
 package com.example.recruitmenttask.model.local
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
 data class FlightDetailModel(

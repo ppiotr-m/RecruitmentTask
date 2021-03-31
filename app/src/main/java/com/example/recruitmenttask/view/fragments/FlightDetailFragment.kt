@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.recruitmenttask.R
 import com.example.recruitmenttask.databinding.FragmentFlightDetailBinding
 import com.example.recruitmenttask.model.local.FlightDetailModel
+import dagger.hilt.android.AndroidEntryPoint
 
 class FlightDetailFragment : Fragment() {
 

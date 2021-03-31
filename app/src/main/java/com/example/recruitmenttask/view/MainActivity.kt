@@ -11,7 +11,6 @@ import com.example.recruitmenttask.R
 import com.example.recruitmenttask.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-//@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
