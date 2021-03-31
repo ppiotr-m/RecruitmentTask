@@ -1,5 +1,7 @@
 package com.example.recruitmenttask.model
 
+import java.io.Serializable
+
 data class Station(
     val code: String,
     val name: String,
@@ -16,8 +18,4 @@ data class Station(
     val mobileBoardingPass: Boolean,
     val markets: List<Market>,
     val notices: String?
-) {
-    override fun toString(): String {
-        return name + " (" + code + ")"
-    }
-}
+) : Serializable

@@ -1,5 +1,7 @@
 package com.example.recruitmenttask.model
 
+import java.io.Serializable
+
 data class Fare(
     val type: String,
     val amount: Double,
@@ -8,8 +10,4 @@ data class Fare(
     val publishedFare: Double,
     val discountInPercent: Double,
     val hasPromoDiscount: Boolean
-) {
-    override fun toString(): String {
-        return "Fare(type='$type', amount=$amount, count=$count, hasDiscount=$hasDiscount, publishedFare=$publishedFare, discountInPercent=$discountInPercent, hasPromoDiscount=$hasPromoDiscount)"
-    }
-}
+) : Serializable

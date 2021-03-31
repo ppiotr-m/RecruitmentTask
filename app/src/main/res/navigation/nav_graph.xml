@@ -27,5 +27,8 @@
         <action
             android:id="@+id/action_flightListFragment_to_flightDetailFragment"
             app:destination="@id/flightDetailFragment" />
+<!--        <argument-->
+<!--            android:name="flightsData"-->
+<!--            app:argType="com.example.recruitmenttask.model.FlightsResponse" />-->
     </fragment>
 </navigation>

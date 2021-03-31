@@ -1,11 +1,9 @@
 package com.example.recruitmenttask.model
 
+import java.io.Serializable
+
 data class RegularFare(
     val fareKey: String,
     val fareClass: String,
     val fares: List<Fare>
-) {
-    override fun toString(): String {
-        return "RegularFare(fareKey='$fareKey', fareClass='$fareClass', fares=$fares)"
-    }
-}
+) : Serializable

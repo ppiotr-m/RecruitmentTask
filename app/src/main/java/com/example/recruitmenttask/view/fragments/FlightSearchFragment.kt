@@ -23,6 +23,7 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var binding: FragmentFlightSearchBinding
     private lateinit var flightSearchViewModel: FlightSearchViewModel
     private lateinit var navController: NavController
+    val datePickerDialogMonthOffset = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -118,7 +119,9 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             }
         })
         flightSearchViewModel.flightsData.observe(viewLifecycleOwner, {
-            Toast.makeText(requireContext(), "Great success!", Toast.LENGTH_LONG).show()
+//            val directions = FlightSearchFragmentDirections.actionFlightSearchFragmentToFlightListFragment(it)
+//            navController.navigate(directions)
+            navigateToListFragment()
         })
     }
 
@@ -126,13 +129,12 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         navController.navigate(R.id.action_flightSearchFragment_to_flightListFragment)
     }
 
-    //  TODO Skips to next month, threw exception on 31 Feb
     private fun showDatePickerDialog() {
         DatePickerDialog(
             requireContext(),
             this,
             flightSearchViewModel.date.value!!.year,
-            flightSearchViewModel.date.value!!.monthValue - 1,
+            flightSearchViewModel.date.value!!.monthValue - datePickerDialogMonthOffset,
             flightSearchViewModel.date.value!!.dayOfMonth
         ).show()
     }
@@ -168,6 +170,6 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        flightSearchViewModel.setDate(year, month + 1, dayOfMonth)
+        flightSearchViewModel.setDate(year, month + datePickerDialogMonthOffset, dayOfMonth)
     }
 }

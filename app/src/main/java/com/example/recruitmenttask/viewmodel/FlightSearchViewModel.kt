@@ -58,7 +58,7 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
                 false,
                 originStationCode!!,
                 destinationStationCode!!,
-                0,
+                0,  //  TODO Remove redundant args
                 0,
                 0,
                 0,
@@ -96,13 +96,12 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
         this.destinationStationCode = getStationCodeFromStationSelectionString(destinationStationCode)
     }
 
+    //  TODO Move to separate class
     fun getStationCodeFromStationSelectionString(stationSelectionString: String): String {
-        Log.d("flight", "Selection String: " + stationSelectionString)
+        val firstCodeLetterOffset = 2
+        val lastCodeLetterOffset = 5
+        val indexOfLastSpace = stationSelectionString.indexOfLast { it == ' ' }
 
-        val indextOfLastSpace = stationSelectionString.indexOfLast { it == ' ' }
-
-        Log.d("flight", "Index of last space: " + indextOfLastSpace)
-
-        return stationSelectionString.substring(indextOfLastSpace + 2, indextOfLastSpace + 5)
+        return stationSelectionString.substring(indexOfLastSpace + firstCodeLetterOffset, indexOfLastSpace + lastCodeLetterOffset)
     }
 }

@@ -9,4 +9,8 @@
     <string name="children_label">Children:</string>
     <string name="network_error_msg">Network error occurred.</string>
     <string name="input_error_msg">There is something wrong with input!</string>
+    <string name="date_label">Date:</string>
+    <string name="duration_label">Duration:</string>
+    <string name="flight_number_label">Flight number:</string>
+    <string name="price_label">Price:</string>
 </resources>
