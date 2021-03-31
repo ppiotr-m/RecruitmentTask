@@ -11,6 +11,5 @@ data class Fare(
     val discountInPercent: Int,
     val hasPromoDiscount: Boolean,
     val discountAmount: Double,
-    @SerializedName("hasBogof")
     val hasBogOf: Boolean
 )
