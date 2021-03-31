@@ -24,19 +24,18 @@ class Repository
         if(response.isSuccessful) {
             return response.body()!!
         }
+
         throw FailedRemoteResponse()
     }
 
     suspend fun getFlights(flightsRequest: FlightsRequest): FlightsResponse {
         val response = flightService.fetchFlightsList(flightsRequest.getQueryMap())
 
-        Log.d("flight", "After fetching flights: " + response)
+        Log.d("flight", "Flights response, size:\n" + response.raw().toString())
 
         if(response.isSuccessful) {
             return response.body()!!
         }
-
-        Log.d("flight", "Response: " + response.code())
 
         throw FailedRemoteResponse()
     }

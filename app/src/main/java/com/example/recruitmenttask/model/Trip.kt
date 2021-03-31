@@ -8,4 +8,4 @@ data class Trip(
     val destination: String,
     val destinationName: String,
     val dates: List<RyanairDate>
-) : Serializable
+)

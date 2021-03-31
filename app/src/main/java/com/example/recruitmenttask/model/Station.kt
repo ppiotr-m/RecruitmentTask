@@ -18,4 +18,9 @@ data class Station(
     val mobileBoardingPass: Boolean,
     val markets: List<Market>,
     val notices: String?
-) : Serializable
+) {
+
+    override fun toString(): String {
+        return "$name ($code)"
+    }
+}

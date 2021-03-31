@@ -9,5 +9,7 @@ data class Fare(
     val hasDiscount: Boolean,
     val publishedFare: Double,
     val discountInPercent: Double,
-    val hasPromoDiscount: Boolean
-) : Serializable
+    val hasPromoDiscount: Boolean,
+    val discountAmount: Double,
+    val hasBogof: Boolean
+)

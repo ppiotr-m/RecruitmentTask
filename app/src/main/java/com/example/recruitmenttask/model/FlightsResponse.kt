@@ -8,4 +8,4 @@ data class FlightsResponse(
     val currPrecision: Int,
     val trips: List<Trip>,
     val serverTimeUTC: String   //  TODO Probably change to LocalDateTime
-) : Serializable
+)
