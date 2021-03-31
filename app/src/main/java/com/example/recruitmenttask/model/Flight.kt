@@ -1,7 +1,7 @@
 package com.example.recruitmenttask.model
 
-import java.io.Serializable
-import java.time.Duration
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 data class Flight(
     val faresLeft: Int,

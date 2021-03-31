@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.recruitmenttask.databinding.FragmentFlightDetailBinding
+import com.example.recruitmenttask.model.local.FlightDetailModel
 
 class FlightDetailFragment : Fragment() {
 
@@ -19,5 +20,35 @@ class FlightDetailFragment : Fragment() {
         binding = FragmentFlightDetailBinding.inflate(inflater)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        init()
+    }
+
+    private fun init() {
+        val data = retriveData()
+
+        if(data == null) {
+            //  TODO Navigate back
+        } else {
+            initViewWithData(data)
+        }
+    }
+
+    private fun retriveData(): FlightDetailModel? {
+        val bundle = arguments ?: return null
+        return FlightDetailFragmentArgs.fromBundle(bundle).flightDetailData
+
+    }
+
+    private fun initViewWithData(data: FlightDetailModel) {
+        binding.detailOriginTV.text = data.origin
+        binding.detailDestinationTV.text = data.destination
+        binding.detailInfantsLeftTV.text = data.infantsLeft.toString()
+        binding.detailFareClassTV.text = data.fareClass
+        binding.detailDiscountTV.text = data.discountInPercent.toString()
     }
 }

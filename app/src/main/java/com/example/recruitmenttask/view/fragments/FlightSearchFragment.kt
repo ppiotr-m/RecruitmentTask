@@ -119,8 +119,6 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             }
         })
         flightSearchViewModel.flightsData.observe(viewLifecycleOwner, {
-//            val directions = FlightSearchFragmentDirections.actionFlightSearchFragmentToFlightListFragment(it)
-//            navController.navigate(directions)
             navigateToListFragment()
         })
     }

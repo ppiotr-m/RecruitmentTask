@@ -18,7 +18,11 @@
         android:id="@+id/flightDetailFragment"
         android:name="com.example.recruitmenttask.view.fragments.FlightDetailFragment"
         android:label="fragment_flight_detail"
-        tools:layout="@layout/fragment_flight_detail" />
+        tools:layout="@layout/fragment_flight_detail" >
+        <argument
+            android:name="flightDetailData"
+            app:argType="com.example.recruitmenttask.model.local.FlightDetailModel" />
+    </fragment>
     <fragment
         android:id="@+id/flightListFragment"
         android:name="com.example.recruitmenttask.view.fragments.FlightListFragment"
@@ -26,9 +30,10 @@
         tools:layout="@layout/fragment_flight_list" >
         <action
             android:id="@+id/action_flightListFragment_to_flightDetailFragment"
-            app:destination="@id/flightDetailFragment" />
-<!--        <argument-->
-<!--            android:name="flightsData"-->
-<!--            app:argType="com.example.recruitmenttask.model.FlightsResponse" />-->
+            app:destination="@id/flightDetailFragment">
+            <argument
+                android:name="flightDetailData"
+                app:argType="com.example.recruitmenttask.model.local.FlightDetailModel" />
+        </action>
     </fragment>
 </navigation>

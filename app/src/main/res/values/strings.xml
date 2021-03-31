@@ -13,4 +13,7 @@
     <string name="duration_label">Duration:</string>
     <string name="flight_number_label">Flight number:</string>
     <string name="price_label">Price:</string>
+    <string name="infants_left_label">Infants left:</string>
+    <string name="fare_class_label">Fare class:</string>
+    <string name="discount_percent_label">Discount in percent:</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.recruitmenttask.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 import java.time.Duration
 

@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recruitmenttask.databinding.FragmentFlightListBinding
 import com.example.recruitmenttask.model.Flight
+import com.example.recruitmenttask.model.local.FlightDetailModel
 import com.example.recruitmenttask.view.MainActivity
 import com.example.recruitmenttask.view.elements.FlightListAdapter
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
@@ -19,6 +22,7 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
 
     private lateinit var binding: FragmentFlightListBinding
     private lateinit var flightSearchViewModel: FlightSearchViewModel
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +43,7 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     }
 
     private fun init() {
+        navController = findNavController()
         initViewModel()
         setToolbarText()
         setupRecyclerView()
@@ -46,7 +51,8 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
 
     private fun setupRecyclerView() {
         binding.flightsList.layoutManager = LinearLayoutManager(requireContext())
-        binding.flightsList.adapter = FlightListAdapter(flightSearchViewModel.flightsData.value!!)
+        binding.flightsList.adapter =
+            FlightListAdapter(flightSearchViewModel.flightsData.value!!, this)
     }
 
     private fun setToolbarText() {
@@ -63,6 +69,15 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     }
 
     override fun onItemClicked(itemPosition: Int) {
+        val origin = flightSearchViewModel.flightsData.value!!.trips[0].origin
+        val destination = flightSearchViewModel.flightsData.value!!.trips[0].destination
+        val infantsLeft = flightSearchViewModel.flightsData.value!!.trips[0].dates[0].flights[itemPosition].infantsLeft
+        val fareClass = flightSearchViewModel.flightsData.value!!.trips[0].dates[0].flights[itemPosition].regularFare.fareClass
+        val discountInPercent = flightSearchViewModel.flightsData.value!!.trips[0].dates[0].flights[itemPosition].regularFare.fares[0].discountInPercent
 
+        val detailViewData = FlightDetailModel(origin, destination, infantsLeft, fareClass, discountInPercent)
+
+        val directions = FlightListFragmentDirections.actionFlightListFragmentToFlightDetailFragment(detailViewData)
+        navController.navigate(directions)
     }
 }
