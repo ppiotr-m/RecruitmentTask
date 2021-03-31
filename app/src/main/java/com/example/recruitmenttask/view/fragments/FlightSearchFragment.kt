@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var binding: FragmentFlightSearchBinding
-    private lateinit var flightSharedViewModel: FlightSharedViewModel   // TODO Rename class to SharedViewModel
+    private lateinit var flightSharedViewModel: FlightSharedViewModel
     private lateinit var navController: NavController
     private val datePickerDialogMonthOffset = 1
     //  Since when navigation is triggered with observing, this variable prevents navigating when

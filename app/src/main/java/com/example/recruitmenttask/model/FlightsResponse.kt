@@ -8,7 +8,7 @@ data class FlightsResponse(
     val currency: String,
     val currPrecision: Int,
     val trips: List<Trip>,
-    val serverTimeUTC: String   //  TODO Probably change to LocalDateTime
+    val serverTimeUTC: String
 ) {
     fun createFlightDetailModelForFlightIndex(index: Int): FlightDetailModel? {
         return if(index < trips[0].dates[0].flights.size && index >= 0) {

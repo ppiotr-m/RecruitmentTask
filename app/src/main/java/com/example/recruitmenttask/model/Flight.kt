@@ -11,7 +11,7 @@ data class Flight(
     val operatedBy: String,
     val segments: List<Segment>,
     val flightNumber: String,
-    val time: List<String>,     //  TODO Change to LocalDateTime
-    val timeUTC: List<String>,  //  TODO Change to Local DateTime
+    val time: List<String>,
+    val timeUTC: List<String>,
     val duration: String
 )

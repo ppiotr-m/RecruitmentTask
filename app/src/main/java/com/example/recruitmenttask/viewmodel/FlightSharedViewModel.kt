@@ -31,9 +31,6 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
     private val _flightsData = MutableLiveData<FlightsResponse>()
     val flightsData: LiveData<FlightsResponse> = _flightsData
 
-    private val _shouldNavigateToList = MutableLiveData<Boolean?>(false)
-    val shouldNavigateToList = _shouldNavigateToList
-
     var adultsCount = 0
     var teensCount = 0
     var childrenCount = 0
@@ -44,10 +41,6 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
 
     init {
         getStationsList()
-    }
-
-    fun setShouldNavigateToNull() {
-        _shouldNavigateToList.value = null
     }
 
     private fun getStationsList() {

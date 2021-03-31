@@ -31,8 +31,6 @@ class Repository
     suspend fun getFlights(flightsRequest: FlightsRequest): FlightsResponse {
         val response = flightService.fetchFlightsList(flightsRequest.getQueryMap())
 
-        Log.d("flight", "Flights response, size:\n" + response.raw().toString())
-
         if (response.isSuccessful) {
             return response.body()!!
         }
