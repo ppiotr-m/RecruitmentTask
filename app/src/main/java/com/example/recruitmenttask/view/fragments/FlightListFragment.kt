@@ -50,6 +50,10 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     }
 
     private fun setupRecyclerView() {
+        if(flightSharedViewModel.flightsData.value!!.trips.isEmpty()) {
+            showNoFlightsOverlay()
+            return
+        }
         binding.flightsList.layoutManager = LinearLayoutManager(requireContext())
         binding.flightsList.adapter =
             FlightListAdapter(flightSharedViewModel.flightsData.value!!, this)
@@ -82,5 +86,9 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
         } else {
             Toast.makeText(requireContext(), R.string.toast_error_message, Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun showNoFlightsOverlay() {
+        binding.noFlightsOverlayMessageView.visibility = View.VISIBLE
     }
 }

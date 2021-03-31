@@ -1,139 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.recruitmenttask.viewmodel.FlightSharedViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.fragments.FlightSearchFragment">
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sliderRange">
 
-        <Button
-            android:id="@+id/searchBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/search_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <AutoCompleteTextView
-            android:id="@+id/originStationACTV"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loadingMessageOverlay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/origin_station"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:background="@color/white">
 
-        <AutoCompleteTextView
-            android:id="@+id/destinationStationACTV"
+            <TextView
+                style="@style/BigText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/destination_station"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/originStationACTV" />
+            android:layout_height="match_parent"
+            android:id="@+id/searchFormContainer"
+            android:visibility="gone"
+            tools:context=".view.fragments.FlightSearchFragment">
 
-        <ImageButton
-            android:id="@+id/showCalendarBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_white_callendar_24"
-            app:layout_constraintStart_toEndOf="@+id/selectedDateTV"
-            app:layout_constraintTop_toBottomOf="@+id/destinationStationACTV" />
+            <Button
+                android:id="@+id/searchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/search_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/selectedDateTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@{viewModel.date.toString()}"
-            app:layout_constraintBottom_toBottomOf="@+id/showCalendarBtn"
-            app:layout_constraintStart_toEndOf="@+id/departureDateLabelTV"
-            app:layout_constraintTop_toTopOf="@+id/showCalendarBtn" />
+            <AutoCompleteTextView
+                android:id="@+id/originStationACTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/origin_station"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <NumberPicker
-            android:id="@+id/adultsNumberPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/adultsLabelTV" />
+            <AutoCompleteTextView
+                android:id="@+id/destinationStationACTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/destination_station"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/originStationACTV" />
 
-        <NumberPicker
-            android:id="@+id/teensNumberPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/childrenNumberPicker"
-            app:layout_constraintStart_toEndOf="@+id/adultsNumberPicker"
-            app:layout_constraintTop_toTopOf="@+id/adultsNumberPicker" />
+            <ImageButton
+                android:id="@+id/showCalendarBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_white_callendar_24"
+                app:layout_constraintStart_toEndOf="@+id/selectedDateTV"
+                app:layout_constraintTop_toBottomOf="@+id/destinationStationACTV" />
 
-        <NumberPicker
-            android:id="@+id/childrenNumberPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/teensNumberPicker" />
+            <TextView
+                android:id="@+id/selectedDateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.date.toString()}"
+                app:layout_constraintBottom_toBottomOf="@+id/showCalendarBtn"
+                app:layout_constraintStart_toEndOf="@+id/departureDateLabelTV"
+                app:layout_constraintTop_toTopOf="@+id/showCalendarBtn" />
 
-        <TextView
-            android:id="@+id/departureDateLabelTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/departure_date"
-            app:layout_constraintBottom_toBottomOf="@+id/selectedDateTV"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/selectedDateTV" />
+            <NumberPicker
+                android:id="@+id/adultsNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/adultsLabelTV" />
 
-        <TextView
-            android:id="@+id/adultsLabelTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/adults_label"
-            app:layout_constraintBottom_toTopOf="@+id/adultsNumberPicker"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/showCalendarBtn" />
+            <NumberPicker
+                android:id="@+id/teensNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/childrenNumberPicker"
+                app:layout_constraintStart_toEndOf="@+id/adultsNumberPicker"
+                app:layout_constraintTop_toTopOf="@+id/adultsNumberPicker" />
 
-        <TextView
-            android:id="@+id/teensLabelTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/teens_label"
-            app:layout_constraintBottom_toTopOf="@+id/teensNumberPicker"
-            app:layout_constraintStart_toStartOf="@+id/teensNumberPicker"
-            app:layout_constraintTop_toTopOf="@+id/adultsLabelTV" />
+            <NumberPicker
+                android:id="@+id/childrenNumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/teensNumberPicker" />
 
-        <TextView
-            android:id="@+id/childrenLabelTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/children_label"
-            app:layout_constraintBottom_toTopOf="@+id/childrenNumberPicker"
-            app:layout_constraintStart_toStartOf="@+id/childrenNumberPicker"
-            app:layout_constraintTop_toTopOf="@+id/adultsLabelTV" />
+            <TextView
+                android:id="@+id/departureDateLabelTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/departure_date"
+                app:layout_constraintBottom_toBottomOf="@+id/selectedDateTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/selectedDateTV" />
+
+            <TextView
+                android:id="@+id/adultsLabelTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/adults_label"
+                app:layout_constraintBottom_toTopOf="@+id/adultsNumberPicker"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/showCalendarBtn" />
+
+            <TextView
+                android:id="@+id/teensLabelTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/teens_label"
+                app:layout_constraintBottom_toTopOf="@+id/teensNumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/teensNumberPicker"
+                app:layout_constraintTop_toTopOf="@+id/adultsLabelTV" />
+
+            <TextView
+                android:id="@+id/childrenLabelTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/children_label"
+                app:layout_constraintBottom_toTopOf="@+id/childrenNumberPicker"
+                app:layout_constraintStart_toStartOf="@+id/childrenNumberPicker"
+                app:layout_constraintTop_toTopOf="@+id/adultsLabelTV" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

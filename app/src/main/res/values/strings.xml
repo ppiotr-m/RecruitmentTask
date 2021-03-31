@@ -17,4 +17,10 @@
     <string name="fare_class_label">Fare class:</string>
     <string name="discount_percent_label">Discount in percent:</string>
     <string name="toast_error_message">Something is wrong!</string>
+    <string-array name="rangeSliderValues">
+        <item>150</item>
+        <item>1000</item>
+    </string-array>
+    <string name="no_flights_found">No flights were found for given parameters</string>
+    <string name="loading">Loading…</string>
 </resources>

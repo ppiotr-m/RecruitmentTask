@@ -51,6 +51,7 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         super.onResume()
 
         cleanTopToolbarText()
+        hideLoadingOverlay()
     }
 
     private fun cleanTopToolbarText() {
@@ -63,6 +64,7 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
         binding.searchBtn.setOnClickListener {
             shouldNavigate.set(true)
+            showLoadingOverlay()
             flightSharedViewModel.searchForFlights()
         }
     }
@@ -117,18 +119,21 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun setupObservers() {
         flightSharedViewModel.stations.observe(viewLifecycleOwner, {
             setupAutoCompleteTextViews(it.stations)
+            hideLoadingOverlay()
         })
         flightSharedViewModel.date.observe(viewLifecycleOwner, {
             binding.selectedDateTV.text = it.toString()
         })
         flightSharedViewModel.inputErrorOccurred.observe(viewLifecycleOwner, {
             if(it == true) {
+                hideLoadingOverlay()
                 Toast.makeText(requireContext(), R.string.input_error_msg, Toast.LENGTH_LONG)
                     .show()
             }
         })
         flightSharedViewModel.networkErrorOccurred.observe(viewLifecycleOwner, {
             if(it == true) {
+                hideLoadingOverlay()
                 Toast.makeText(requireContext(), R.string.network_error_msg, Toast.LENGTH_LONG)
                     .show()
             }
@@ -139,9 +144,6 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 navigateToListFragment()
             }
         })
-//        flightSearchViewModel.shouldNavigateToList.observe(viewLifecycleOwner, {
-//            navigateToListFragment()
-//        })
     }
 
     private fun navigateToListFragment() {
@@ -190,5 +192,15 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         flightSharedViewModel.setDate(year, month + datePickerDialogMonthOffset, dayOfMonth)
+    }
+
+    private fun showLoadingOverlay() {
+        binding.loadingMessageOverlay.visibility = View.VISIBLE
+        binding.searchFormContainer.visibility = View.GONE
+    }
+
+    private fun hideLoadingOverlay() {
+        binding.loadingMessageOverlay.visibility = View.GONE
+        binding.searchFormContainer.visibility = View.VISIBLE
     }
 }
