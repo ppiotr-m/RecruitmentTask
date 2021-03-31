@@ -11,15 +11,13 @@ import com.example.recruitmenttask.model.FlightsResponse
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
 import java.time.LocalDateTime
 
-class FlightListAdapter(
-    private val data: FlightsResponse,
+class AlternateFlightListAdapter(
+    private val flightsList: List<Flight>,
+    private val date: String,
+    private val currency: String,
     private val listener: FlightListElementOnClickListener
 ) :
-    RecyclerView.Adapter<FlightListAdapter.ViewHolder>() {
-
-    private val flightsList = data.trips[0].dates[0].flights
-
-
+    RecyclerView.Adapter<AlternateFlightListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,11 +28,11 @@ class FlightListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.dateTV.text =
-            LocalDateTime.parse(data.trips[0].dates[0].dateOut).toLocalDate().toString()
+            LocalDateTime.parse(date).toLocalDate().toString()
         holder.durationTV.text = flightsList[position].duration
         holder.flightNumberTV.text = flightsList[position].flightNumber
         holder.priceTV.text =
-            (flightsList[position].regularFare.fares[0].amount.toString() + " " + data.currency)
+            (flightsList[position].regularFare.fares[0].amount.toString() + " " + currency)
         holder.setItemPosition(position)
     }
 
@@ -42,7 +40,8 @@ class FlightListAdapter(
         return flightsList.size
     }
 
-    class ViewHolder(view: View, private val listener: FlightListElementOnClickListener) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val listener: FlightListElementOnClickListener) :
+        RecyclerView.ViewHolder(view) {
 
         private var itemPosition = -1
 

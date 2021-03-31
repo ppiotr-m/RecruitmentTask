@@ -12,12 +12,6 @@ class FlightViewModelFactory(
         if (modelClass.isAssignableFrom(FlightSharedViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return FlightSharedViewModel(flightRepository) as T
-        } else if (modelClass.isAssignableFrom(FlightListViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return FlightListViewModel(flightRepository) as T
-        } else if (modelClass.isAssignableFrom(FlightDetailViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return FlightDetailViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

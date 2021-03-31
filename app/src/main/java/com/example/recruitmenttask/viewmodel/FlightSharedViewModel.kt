@@ -31,10 +31,14 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
     private val _flightsData = MutableLiveData<FlightsResponse>()
     val flightsData: LiveData<FlightsResponse> = _flightsData
 
-    val _maxPrice = MutableLiveData(150)
-    val maxPrice: LiveData<Int> = _maxPrice
+    private val _maxPrice = MutableLiveData(0F)
+    val maxPrice: LiveData<Float> = _maxPrice
     val filteredFlightsData: LiveData<List<Flight>> = Transformations.map(maxPrice) {
         maxPrice -> getFlightsCheaperThanGivenPrice(maxPrice)
+    }
+
+    fun setMaxPrice(maxPrice: Float) {
+        _maxPrice.value = maxPrice
     }
 
     var adultsCount = 0
@@ -55,7 +59,7 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    private fun getFlightsCheaperThanGivenPrice(maxPrice: Int): List<Flight> {
+    private fun getFlightsCheaperThanGivenPrice(maxPrice: Float): List<Flight> {
         return flightsData.value!!.trips[0].dates[0].flights
             .stream()
             .filter { flight -> flight.regularFare.fares[0].amount <= maxPrice }

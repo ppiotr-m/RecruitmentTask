@@ -1,7 +1,5 @@
 package com.example.recruitmenttask.model
 
-import com.google.gson.annotations.SerializedName
-
 data class Fare(
     val type: String,
     val amount: Double,

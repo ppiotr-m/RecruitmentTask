@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recruitmenttask.R
 import com.example.recruitmenttask.databinding.FragmentFlightListBinding
 import com.example.recruitmenttask.view.MainActivity
+import com.example.recruitmenttask.view.elements.AlternateFlightListAdapter
 import com.example.recruitmenttask.view.elements.FlightListAdapter
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
 import com.example.recruitmenttask.viewmodel.FlightSharedViewModel
@@ -24,6 +25,7 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     private lateinit var binding: FragmentFlightListBinding
     private lateinit var flightSharedViewModel: FlightSharedViewModel
     private lateinit var navController: NavController
+    private val initialMaxPrice = 150F
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +40,6 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.lifecycleOwner = viewLifecycleOwner
-
         init()
     }
 
@@ -48,16 +48,37 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
         initViewModel()
         setToolbarText()
         setupRecyclerView()
+        setupObservers()
+        setInitialMaxPrice()
     }
 
     private fun setupRecyclerView() {
-        if(flightSharedViewModel.flightsData.value!!.trips.isEmpty()) {
+        if (flightSharedViewModel.flightsData.value!!.trips.isEmpty()) {
             showNoFlightsOverlay()
             return
         }
         binding.flightsList.layoutManager = LinearLayoutManager(requireContext())
         binding.flightsList.adapter =
-            FlightListAdapter(flightSharedViewModel.flightsData.value!!, this)
+            AlternateFlightListAdapter(flightSharedViewModel.filteredFlightsData.value!!,
+                flightSharedViewModel.flightsData.value!!.trips[0].dates[0].dateOut,
+                flightSharedViewModel.flightsData.value!!.currency,
+                this)
+//            FlightListAdapter(flightSharedViewModel.flightsData.value!!, this)
+    }
+
+    private fun setInitialMaxPrice() {
+        flightSharedViewModel.setMaxPrice(initialMaxPrice)
+        binding.priceSlider.value = initialMaxPrice
+    }
+
+    private fun setupObservers() {
+        flightSharedViewModel.filteredFlightsData.observe(viewLifecycleOwner, {
+            binding.flightsList.adapter =
+                AlternateFlightListAdapter(it,
+                    flightSharedViewModel.flightsData.value!!.trips[0].dates[0].dateOut,
+                    flightSharedViewModel.flightsData.value!!.currency,
+                    this)
+        })
     }
 
     private fun setToolbarText() {
