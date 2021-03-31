@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.recruitmenttask.R
 import com.example.recruitmenttask.databinding.FragmentFlightDetailBinding
 import com.example.recruitmenttask.model.local.FlightDetailModel
 
@@ -32,7 +34,7 @@ class FlightDetailFragment : Fragment() {
         val data = retriveData()
 
         if(data == null) {
-            //  TODO Navigate back
+            Toast.makeText(requireContext(), R.string.toast_error_message, Toast.LENGTH_LONG).show()
         } else {
             initViewWithData(data)
         }

@@ -1,7 +1,5 @@
 package com.example.recruitmenttask.model
 
-import java.io.Serializable
-
 data class Station(
     val code: String,
     val name: String,

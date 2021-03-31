@@ -10,10 +10,11 @@ import com.example.recruitmenttask.model.FlightsRequest
 import com.example.recruitmenttask.model.FlightsResponse
 import com.example.recruitmenttask.model.StationsResponse
 import com.example.recruitmenttask.repository.Repository
+import com.example.recruitmenttask.utils.StationCodeRetriver
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
+class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
 
     private val _stations = MutableLiveData<StationsResponse>()
     val stations: LiveData<StationsResponse> = _stations
@@ -37,6 +38,7 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
     var teensCount = 0
     var childrenCount = 0
 
+    private val stationCodeRetriver = StationCodeRetriver()
     private var originStationCode: String? = null
     private var destinationStationCode: String? = null
 
@@ -65,10 +67,6 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
                 false,
                 originStationCode!!,
                 destinationStationCode!!,
-                0,  //  TODO Remove redundant args
-                0,
-                0,
-                0,
                 adultsCount,
                 teensCount,
                 childrenCount
@@ -85,7 +83,7 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
 
     private fun validateInput(): Boolean {
         val isInputValid = ((originStationCode != null && destinationStationCode != null)
-//                && (date.value!!.isAfter(LocalDate.now()) || date.value!!.isEqual(LocalDate.now()))
+                && (date.value!!.isAfter(LocalDate.now()) || date.value!!.isEqual(LocalDate.now()))
                 && ((adultsCount + teensCount + childrenCount) > 0))
         return if(isInputValid) {
             isInputValid
@@ -96,19 +94,10 @@ class FlightSearchViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun setOriginStationCode(originStationCode: String) {
-        this.originStationCode = getStationCodeFromStationSelectionString(originStationCode)
+        this.originStationCode = stationCodeRetriver.getStationCodeFromStationSelectionString(originStationCode)
     }
 
     fun setDestinationStationCode(destinationStationCode: String) {
-        this.destinationStationCode = getStationCodeFromStationSelectionString(destinationStationCode)
-    }
-
-    //  TODO Move to separate class
-    fun getStationCodeFromStationSelectionString(stationSelectionString: String): String {
-        val firstCodeLetterOffset = 2
-        val lastCodeLetterOffset = 5
-        val indexOfLastSpace = stationSelectionString.indexOfLast { it == ' ' }
-
-        return stationSelectionString.substring(indexOfLastSpace + firstCodeLetterOffset, indexOfLastSpace + lastCodeLetterOffset)
+        this.destinationStationCode = stationCodeRetriver.getStationCodeFromStationSelectionString(destinationStationCode)
     }
 }

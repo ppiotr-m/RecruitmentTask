@@ -16,4 +16,5 @@
     <string name="infants_left_label">Infants left:</string>
     <string name="fare_class_label">Fare class:</string>
     <string name="discount_percent_label">Discount in percent:</string>
+    <string name="toast_error_message">Something is wrong!</string>
 </resources>

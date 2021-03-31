@@ -29,10 +29,10 @@ class FlightListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.dateTV.text =
             LocalDateTime.parse(data.trips[0].dates[0].dateOut).toLocalDate().toString()
-        holder.durationTV.text = flightsList[position].duration.toString()
+        holder.durationTV.text = flightsList[position].duration
         holder.flightNumberTV.text = flightsList[position].flightNumber
         holder.priceTV.text =
-            flightsList[position].regularFare.fares[0].amount.toString() + " " + data.currency//  TODO Work it out
+            (flightsList[position].regularFare.fares[0].amount.toString() + " " + data.currency)
         holder.setItemPosition(position)
     }
 

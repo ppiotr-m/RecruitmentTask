@@ -21,11 +21,11 @@ class Repository
     suspend fun getStations(): StationsResponse {
         val response = flightService.fetchStationsList()
 
-        if(response.isSuccessful) {
+        if (response.isSuccessful) {
             return response.body()!!
         }
 
-        throw FailedRemoteResponse()
+        throw FailedRemoteResponse("HTTP request unsuccessful, code: ${response.code()}, message: ${response.message()}")
     }
 
     suspend fun getFlights(flightsRequest: FlightsRequest): FlightsResponse {
@@ -33,10 +33,10 @@ class Repository
 
         Log.d("flight", "Flights response, size:\n" + response.raw().toString())
 
-        if(response.isSuccessful) {
+        if (response.isSuccessful) {
             return response.body()!!
         }
 
-        throw FailedRemoteResponse()
+        throw FailedRemoteResponse("HTTP request unsuccessful, code: ${response.code()}, message: ${response.message()}")
     }
 }

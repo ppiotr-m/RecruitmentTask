@@ -2,7 +2,6 @@ package com.example.recruitmenttask.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.recruitmenttask.remote.FlightAPI
 import com.example.recruitmenttask.repository.Repository
 
 class FlightViewModelFactory(
@@ -10,9 +9,9 @@ class FlightViewModelFactory(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(FlightSearchViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(FlightSharedViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return FlightSearchViewModel(flightRepository) as T
+            return FlightSharedViewModel(flightRepository) as T
         } else if (modelClass.isAssignableFrom(FlightListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return FlightListViewModel(flightRepository) as T

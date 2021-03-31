@@ -4,5 +4,6 @@ class ConstantValues {
 
     companion object {
         val MAX_PASSENGER_SETTING_COUNT = 15
+        val TAG = "flight"
     }
 }

@@ -2,7 +2,6 @@ package com.example.recruitmenttask.view.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,14 +14,15 @@ import com.example.recruitmenttask.R
 import com.example.recruitmenttask.databinding.FragmentFlightSearchBinding
 import com.example.recruitmenttask.model.Station
 import com.example.recruitmenttask.utils.ConstantValues.Companion.MAX_PASSENGER_SETTING_COUNT
-import com.example.recruitmenttask.viewmodel.FlightSearchViewModel
+import com.example.recruitmenttask.view.MainActivity
+import com.example.recruitmenttask.viewmodel.FlightSharedViewModel
 import com.example.recruitmenttask.viewmodel.ViewModelInjection
 import java.util.concurrent.atomic.AtomicBoolean
 
 class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var binding: FragmentFlightSearchBinding
-    private lateinit var flightSearchViewModel: FlightSearchViewModel   // TODO Rename class to SharedViewModel
+    private lateinit var flightSharedViewModel: FlightSharedViewModel   // TODO Rename class to SharedViewModel
     private lateinit var navController: NavController
     private val datePickerDialogMonthOffset = 1
     //  Since when navigation is triggered with observing, this variable prevents navigating when
@@ -47,13 +47,23 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         init()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        cleanTopToolbarText()
+    }
+
+    private fun cleanTopToolbarText() {
+        (requireActivity() as MainActivity).setToolbarText("")
+    }
+
     private fun setOnClickListener() {
         binding.showCalendarBtn.setOnClickListener {
             showDatePickerDialog()
         }
         binding.searchBtn.setOnClickListener {
             shouldNavigate.set(true)
-            flightSearchViewModel.searchForFlights()
+            flightSharedViewModel.searchForFlights()
         }
     }
 
@@ -66,10 +76,10 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun initViewModel() {
-        flightSearchViewModel = ViewModelProvider(
+        flightSharedViewModel = ViewModelProvider(
             requireActivity(),
             ViewModelInjection.provideViewModelFactory()
-        ).get(FlightSearchViewModel::class.java)
+        ).get(FlightSharedViewModel::class.java)
     }
 
     private fun setupAutoCompleteTextViews(stations: List<Station>) {
@@ -96,34 +106,34 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setAutoCompleteTextViewsListeners() {
         binding.originStationACTV.setOnItemClickListener { _, view, _, _ ->
-            flightSearchViewModel.setOriginStationCode((view as TextView).text.toString())
+            flightSharedViewModel.setOriginStationCode((view as TextView).text.toString())
         }
 
         binding.destinationStationACTV.setOnItemClickListener { _, view, _, _ ->
-            flightSearchViewModel.setDestinationStationCode((view as TextView).text.toString())
+            flightSharedViewModel.setDestinationStationCode((view as TextView).text.toString())
         }
     }
 
     private fun setupObservers() {
-        flightSearchViewModel.stations.observe(viewLifecycleOwner, {
+        flightSharedViewModel.stations.observe(viewLifecycleOwner, {
             setupAutoCompleteTextViews(it.stations)
         })
-        flightSearchViewModel.date.observe(viewLifecycleOwner, {
+        flightSharedViewModel.date.observe(viewLifecycleOwner, {
             binding.selectedDateTV.text = it.toString()
         })
-        flightSearchViewModel.inputErrorOccurred.observe(viewLifecycleOwner, {
+        flightSharedViewModel.inputErrorOccurred.observe(viewLifecycleOwner, {
             if(it == true) {
                 Toast.makeText(requireContext(), R.string.input_error_msg, Toast.LENGTH_LONG)
                     .show()
             }
         })
-        flightSearchViewModel.networkErrorOccurred.observe(viewLifecycleOwner, {
+        flightSharedViewModel.networkErrorOccurred.observe(viewLifecycleOwner, {
             if(it == true) {
                 Toast.makeText(requireContext(), R.string.network_error_msg, Toast.LENGTH_LONG)
                     .show()
             }
         })
-        flightSearchViewModel.flightsData.observe(viewLifecycleOwner, {
+        flightSharedViewModel.flightsData.observe(viewLifecycleOwner, {
             if(shouldNavigate.get() == true) {
                 shouldNavigate.set(false)
                 navigateToListFragment()
@@ -142,9 +152,9 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         DatePickerDialog(
             requireContext(),
             this,
-            flightSearchViewModel.date.value!!.year,
-            flightSearchViewModel.date.value!!.monthValue - datePickerDialogMonthOffset,
-            flightSearchViewModel.date.value!!.dayOfMonth
+            flightSharedViewModel.date.value!!.year,
+            flightSharedViewModel.date.value!!.monthValue - datePickerDialogMonthOffset,
+            flightSharedViewModel.date.value!!.dayOfMonth
         ).show()
     }
 
@@ -155,9 +165,9 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setInitialValuesForNumberPickers() {
-        binding.adultsNumberPicker.value = flightSearchViewModel.adultsCount
-        binding.teensNumberPicker.value = flightSearchViewModel.teensCount
-        binding.childrenNumberPicker.value = flightSearchViewModel.childrenCount
+        binding.adultsNumberPicker.value = flightSharedViewModel.adultsCount
+        binding.teensNumberPicker.value = flightSharedViewModel.teensCount
+        binding.childrenNumberPicker.value = flightSharedViewModel.childrenCount
     }
 
     private fun setMaxValuesForNumberPickers() {
@@ -168,17 +178,17 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setValueChangedListenersForNumberPickers() {
         binding.adultsNumberPicker.setOnValueChangedListener { _, _, newVal ->
-            flightSearchViewModel.adultsCount = newVal
+            flightSharedViewModel.adultsCount = newVal
         }
         binding.teensNumberPicker.setOnValueChangedListener { _, _, newVal ->
-            flightSearchViewModel.teensCount = newVal
+            flightSharedViewModel.teensCount = newVal
         }
         binding.childrenNumberPicker.setOnValueChangedListener { _, _, newVal ->
-            flightSearchViewModel.childrenCount = newVal
+            flightSharedViewModel.childrenCount = newVal
         }
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        flightSearchViewModel.setDate(year, month + datePickerDialogMonthOffset, dayOfMonth)
+        flightSharedViewModel.setDate(year, month + datePickerDialogMonthOffset, dayOfMonth)
     }
 }
