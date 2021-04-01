@@ -7,6 +7,7 @@ import com.example.recruitmenttask.model.Flight
 import com.example.recruitmenttask.model.FlightsRequest
 import com.example.recruitmenttask.model.FlightsResponse
 import com.example.recruitmenttask.model.StationsResponse
+import com.example.recruitmenttask.model.local.FlightListModel
 import com.example.recruitmenttask.repository.Repository
 import com.example.recruitmenttask.utils.StationCodeRetriver
 import kotlinx.coroutines.launch
@@ -28,13 +29,12 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
     private val _inputErrorOccurred = MutableLiveData(false)
     val inputErrorOccurred = _inputErrorOccurred
 
-    private val _flightsData = MutableLiveData<FlightsResponse>()
-    val flightsData: LiveData<FlightsResponse> = _flightsData
-
     private val _maxPrice = MutableLiveData(0F)
     val maxPrice: LiveData<Float> = _maxPrice
-    val filteredFlightsData: LiveData<List<Flight>> = Transformations.map(maxPrice) {
-        maxPrice -> getFlightsCheaperThanGivenPrice(maxPrice)
+
+    private val _flightsData = MutableLiveData<FlightListModel>()
+    val flightsData: LiveData<FlightListModel> = Transformations.map(maxPrice) {
+            maxPrice -> getFlightsCheaperThanGivenPrice(maxPrice)
     }
 
     fun setMaxPrice(maxPrice: Float) {
@@ -59,11 +59,12 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    private fun getFlightsCheaperThanGivenPrice(maxPrice: Float): List<Flight> {
-        return flightsData.value!!.trips[0].dates[0].flights
+    private fun getFlightsCheaperThanGivenPrice(maxPrice: Float): FlightListModel {
+        val filteredList = flightsData.value!!.flightsList
             .stream()
             .filter { flight -> flight.regularFare.fares[0].amount <= maxPrice }
             .collect(Collectors.toList())
+        return _flightsData.value!!.copy(flightsList = filteredList)
     }
 
     fun setDate(year: Int, month: Int, dayOfMonth: Int) {
@@ -83,7 +84,7 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
             )
             viewModelScope.launch {
                 try {
-                    _flightsData.value = repository.getFlights(flightsRequest)
+                    _flightsData.value = repository.getFlights(flightsRequest).toFlightListModel()
                 } catch(ex: FailedRemoteResponse) {
                     _networkErrorOccurred.value = true
                 }

@@ -13,12 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recruitmenttask.R
 import com.example.recruitmenttask.databinding.FragmentFlightListBinding
 import com.example.recruitmenttask.view.MainActivity
-import com.example.recruitmenttask.view.elements.AlternateFlightListAdapter
-import com.example.recruitmenttask.view.elements.FlightListAdapter
+import com.example.recruitmenttask.view.adapters.AlternateFlightListAdapter
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
 import com.example.recruitmenttask.viewmodel.FlightSharedViewModel
 import com.example.recruitmenttask.viewmodel.ViewModelInjection
-import dagger.hilt.android.AndroidEntryPoint
 
 class FlightListFragment : Fragment(), FlightListElementOnClickListener {
 

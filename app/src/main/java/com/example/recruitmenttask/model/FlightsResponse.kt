@@ -1,6 +1,7 @@
 package com.example.recruitmenttask.model
 
 import com.example.recruitmenttask.model.local.FlightDetailModel
+import com.example.recruitmenttask.model.local.FlightListModel
 
 data class FlightsResponse(
     val termsOfUse: String,
@@ -21,5 +22,9 @@ data class FlightsResponse(
         } else {
             null
         }
+    }
+
+    fun toFlightListModel(): FlightListModel {
+        return FlightListModel(trips[0].dates[0].dateOut, currency, trips[0].dates[0].flights)
     }
 }

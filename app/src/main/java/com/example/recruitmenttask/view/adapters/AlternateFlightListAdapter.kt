@@ -1,4 +1,4 @@
-package com.example.recruitmenttask.view.elements
+package com.example.recruitmenttask.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,19 +7,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recruitmenttask.R
 import com.example.recruitmenttask.model.Flight
-import com.example.recruitmenttask.model.FlightsResponse
+import com.example.recruitmenttask.model.local.FlightListModel
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
 import java.time.LocalDateTime
 
-class FlightListAdapter(
-    private val data: FlightsResponse,
+class AlternateFlightListAdapter(
+    private val data: FlightListModel,
     private val listener: FlightListElementOnClickListener
 ) :
-    RecyclerView.Adapter<FlightListAdapter.ViewHolder>() {
-
-    private val flightsList = data.trips[0].dates[0].flights
-
-
+    RecyclerView.Adapter<AlternateFlightListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,19 +26,20 @@ class FlightListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.dateTV.text =
-            LocalDateTime.parse(data.trips[0].dates[0].dateOut).toLocalDate().toString()
-        holder.durationTV.text = flightsList[position].duration
-        holder.flightNumberTV.text = flightsList[position].flightNumber
+            LocalDateTime.parse(data.date).toLocalDate().toString()
+        holder.durationTV.text = data.flightsList[position].duration
+        holder.flightNumberTV.text = data.flightsList[position].flightNumber
         holder.priceTV.text =
-            (flightsList[position].regularFare.fares[0].amount.toString() + " " + data.currency)
+            (data.flightsList[position].regularFare.fares[0].amount.toString() + " " + data.currency)
         holder.setItemPosition(position)
     }
 
     override fun getItemCount(): Int {
-        return flightsList.size
+        return data.flightsList.size
     }
 
-    class ViewHolder(view: View, private val listener: FlightListElementOnClickListener) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val listener: FlightListElementOnClickListener) :
+        RecyclerView.ViewHolder(view) {
 
         private var itemPosition = -1
 

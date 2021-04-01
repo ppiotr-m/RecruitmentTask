@@ -1,4 +1,4 @@
-package com.example.recruitmenttask.view.elements
+package com.example.recruitmenttask.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,18 +6,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recruitmenttask.R
-import com.example.recruitmenttask.model.Flight
 import com.example.recruitmenttask.model.FlightsResponse
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
 import java.time.LocalDateTime
 
-class AlternateFlightListAdapter(
-    private val flightsList: List<Flight>,
-    private val date: String,
-    private val currency: String,
+class FlightListAdapter(
+    private val data: FlightsResponse,
     private val listener: FlightListElementOnClickListener
 ) :
-    RecyclerView.Adapter<AlternateFlightListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<FlightListAdapter.ViewHolder>() {
+
+    private val flightsList = data.trips[0].dates[0].flights
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -28,11 +29,11 @@ class AlternateFlightListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.dateTV.text =
-            LocalDateTime.parse(date).toLocalDate().toString()
+            LocalDateTime.parse(data.trips[0].dates[0].dateOut).toLocalDate().toString()
         holder.durationTV.text = flightsList[position].duration
         holder.flightNumberTV.text = flightsList[position].flightNumber
         holder.priceTV.text =
-            (flightsList[position].regularFare.fares[0].amount.toString() + " " + currency)
+            (flightsList[position].regularFare.fares[0].amount.toString() + " " + data.currency)
         holder.setItemPosition(position)
     }
 
@@ -40,8 +41,7 @@ class AlternateFlightListAdapter(
         return flightsList.size
     }
 
-    class ViewHolder(view: View, private val listener: FlightListElementOnClickListener) :
-        RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val listener: FlightListElementOnClickListener) : RecyclerView.ViewHolder(view) {
 
         private var itemPosition = -1
 
