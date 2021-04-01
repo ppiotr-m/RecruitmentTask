@@ -1,7 +1,6 @@
 package com.example.recruitmenttask.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recruitmenttask.R
 import com.example.recruitmenttask.databinding.FragmentFlightListBinding
 import com.example.recruitmenttask.utils.ConstantValues.Companion.INITIAL_MAX_PRICE
-import com.example.recruitmenttask.utils.ConstantValues.Companion.TAG
 import com.example.recruitmenttask.view.MainActivity
-import com.example.recruitmenttask.view.adapters.AlternateFlightListAdapter
+import com.example.recruitmenttask.view.adapters.FlightListAdapter
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
 import com.example.recruitmenttask.viewmodel.FlightSharedViewModel
 import com.example.recruitmenttask.viewmodel.ViewModelInjection
@@ -68,7 +66,12 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
             if(it != null) {
                 setToolbarText()
 
-                binding.flightsList.adapter = AlternateFlightListAdapter(it, this)
+                if(binding.flightsList.adapter == null) {
+                    binding.flightsList.adapter = FlightListAdapter(it, this)
+                } else {
+                    val adapter = binding.flightsList.adapter
+                    adapter!!.notifyDataSetChanged()
+                }
 
                 if(it.flightsList.isEmpty()){
                     showNoFlightsOverlay()
