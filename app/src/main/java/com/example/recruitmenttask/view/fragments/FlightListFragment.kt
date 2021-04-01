@@ -20,12 +20,14 @@ import com.example.recruitmenttask.view.adapters.AlternateFlightListAdapter
 import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListener
 import com.example.recruitmenttask.viewmodel.FlightSharedViewModel
 import com.example.recruitmenttask.viewmodel.ViewModelInjection
+import java.util.concurrent.atomic.AtomicBoolean
 
 class FlightListFragment : Fragment(), FlightListElementOnClickListener {
 
     private lateinit var binding: FragmentFlightListBinding
     private lateinit var flightSharedViewModel: FlightSharedViewModel
     private lateinit var navController: NavController
+    private val isTopToolbarTextSet = AtomicBoolean(false)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +50,6 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
         initViewModel()
         setupObservers()
         setInitialSliderValue()
-        setToolbarText()
         setupRecyclerView()
         setSliderValueChangeListener()
     }
@@ -65,8 +66,9 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
         flightSharedViewModel.flightsData.observe(viewLifecycleOwner, {
             //  TODO Change it to updating data instead of creating new adapter
             if(it != null) {
-                binding.flightsList.adapter =
-                    AlternateFlightListAdapter(it, this)
+                setToolbarText()
+
+                binding.flightsList.adapter = AlternateFlightListAdapter(it, this)
 
                 if(it.flightsList.isEmpty()){
                     showNoFlightsOverlay()
@@ -78,7 +80,8 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     }
 
     private fun setToolbarText() {
-        if(flightSharedViewModel.flightsData.value != null) {
+        if(flightSharedViewModel.flightsData.value != null && !isTopToolbarTextSet.get()) {
+            isTopToolbarTextSet.set(true)
             val origin = flightSharedViewModel.flightsData.value!!.originName
             val destination = flightSharedViewModel.flightsData.value!!.destinationName
             (requireActivity() as MainActivity).setToolbarText("$origin -> $destination")
