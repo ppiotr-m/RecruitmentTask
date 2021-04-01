@@ -1,18 +1,14 @@
 package com.example.recruitmenttask.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.recruitmenttask.exceptions.FailedRemoteResponse
-import com.example.recruitmenttask.model.Flight
 import com.example.recruitmenttask.model.FlightsRequest
-import com.example.recruitmenttask.model.FlightsResponse
 import com.example.recruitmenttask.model.StationsResponse
 import com.example.recruitmenttask.model.local.FlightListModel
 import com.example.recruitmenttask.repository.Repository
 import com.example.recruitmenttask.utils.StationCodeRetriver
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.*
 import java.util.stream.Collectors
 
 class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
@@ -32,8 +28,11 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
     private val _maxPrice = MutableLiveData(0F)
     val maxPrice: LiveData<Float> = _maxPrice
 
+    private val _flightsDataReceived = MutableLiveData(false)
+    val flightsDataReceived: LiveData<Boolean> = _flightsDataReceived
+
     private val _flightsData = MutableLiveData<FlightListModel>()
-    val flightsData: LiveData<FlightListModel> = Transformations.map(maxPrice) {
+    val flightsData: LiveData<FlightListModel?> = Transformations.map(maxPrice) {
             maxPrice -> getFlightsCheaperThanGivenPrice(maxPrice)
     }
 
@@ -59,12 +58,16 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    private fun getFlightsCheaperThanGivenPrice(maxPrice: Float): FlightListModel {
-        val filteredList = flightsData.value!!.flightsList
-            .stream()
-            .filter { flight -> flight.regularFare.fares[0].amount <= maxPrice }
-            .collect(Collectors.toList())
-        return _flightsData.value!!.copy(flightsList = filteredList)
+    private fun getFlightsCheaperThanGivenPrice(maxPrice: Float): FlightListModel? {
+        if(_flightsData.value != null) {
+            val filteredList = _flightsData.value!!.flightsList
+                .stream()
+                .filter { flight -> flight.regularFare.fares[0].amount <= maxPrice }
+                .collect(Collectors.toList())
+            return _flightsData.value!!.copy(flightsList = filteredList)
+        } else {
+            return null
+        }
     }
 
     fun setDate(year: Int, month: Int, dayOfMonth: Int) {
@@ -85,6 +88,7 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
             viewModelScope.launch {
                 try {
                     _flightsData.value = repository.getFlights(flightsRequest).toFlightListModel()
+                    _flightsDataReceived.value = true
                 } catch(ex: FailedRemoteResponse) {
                     _networkErrorOccurred.value = true
                 }

@@ -11,7 +11,7 @@ data class FlightsResponse(
     val serverTimeUTC: String   //  TODO Probably change to LocalDateTime
 ) {
     fun createFlightDetailModelForFlightIndex(index: Int): FlightDetailModel? {
-        return if(index < trips[0].dates[0].flights.size && index >= 0) {
+        return if (index < trips[0].dates[0].flights.size && index >= 0) {
             FlightDetailModel(
                 trips[0].origin,
                 trips[0].destination,
@@ -25,6 +25,14 @@ data class FlightsResponse(
     }
 
     fun toFlightListModel(): FlightListModel {
-        return FlightListModel(trips[0].dates[0].dateOut, currency, trips[0].dates[0].flights)
+        return FlightListModel(
+            trips[0].dates[0].dateOut,
+            currency,
+            trips[0].dates[0].flights,
+            trips[0].originName,
+            trips[0].destinationName,
+            trips[0].origin,
+            trips[0].destination
+        )
     }
 }

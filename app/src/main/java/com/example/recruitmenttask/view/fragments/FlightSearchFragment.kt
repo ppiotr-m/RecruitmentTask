@@ -139,7 +139,7 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     .show()
             }
         })
-        flightSharedViewModel.flightsData.observe(viewLifecycleOwner, {
+        flightSharedViewModel.flightsDataReceived.observe(viewLifecycleOwner, {
             if(shouldNavigate.get() == true) {
                 shouldNavigate.set(false)
                 navigateToListFragment()
