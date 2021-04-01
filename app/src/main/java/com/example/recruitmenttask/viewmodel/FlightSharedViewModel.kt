@@ -6,6 +6,7 @@ import com.example.recruitmenttask.model.FlightsRequest
 import com.example.recruitmenttask.model.StationsResponse
 import com.example.recruitmenttask.model.local.FlightListModel
 import com.example.recruitmenttask.repository.Repository
+import com.example.recruitmenttask.utils.ConstantValues.Companion.INITIAL_MAX_PRICE
 import com.example.recruitmenttask.utils.StationCodeRetriver
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -88,6 +89,7 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
             viewModelScope.launch {
                 try {
                     _flightsData.value = repository.getFlights(flightsRequest).toFlightListModel()
+                    _maxPrice.value = INITIAL_MAX_PRICE
                     _flightsDataReceived.value = true
                 } catch(ex: FailedRemoteResponse) {
                     _networkErrorOccurred.value = true

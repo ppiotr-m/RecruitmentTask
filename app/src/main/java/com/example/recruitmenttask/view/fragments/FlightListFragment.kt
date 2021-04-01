@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recruitmenttask.R
 import com.example.recruitmenttask.databinding.FragmentFlightListBinding
+import com.example.recruitmenttask.utils.ConstantValues.Companion.INITIAL_MAX_PRICE
 import com.example.recruitmenttask.utils.ConstantValues.Companion.TAG
 import com.example.recruitmenttask.view.MainActivity
 import com.example.recruitmenttask.view.adapters.AlternateFlightListAdapter
@@ -25,7 +26,6 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     private lateinit var binding: FragmentFlightListBinding
     private lateinit var flightSharedViewModel: FlightSharedViewModel
     private lateinit var navController: NavController
-    private val initialMaxPrice = 150F
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +47,7 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
         navController = findNavController()
         initViewModel()
         setupObservers()
-        setInitialMaxPrice()
+        setInitialSliderValue()
         setToolbarText()
         setupRecyclerView()
         setSliderValueChangeListener()
@@ -57,9 +57,8 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
         binding.flightsList.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun setInitialMaxPrice() {
-        flightSharedViewModel.setMaxPrice(initialMaxPrice)
-        binding.priceSlider.value = initialMaxPrice
+    private fun setInitialSliderValue() {
+        binding.priceSlider.value = INITIAL_MAX_PRICE
     }
 
     private fun setupObservers() {
