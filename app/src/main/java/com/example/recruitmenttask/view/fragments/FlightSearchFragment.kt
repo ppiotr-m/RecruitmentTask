@@ -53,6 +53,7 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
         cleanTopToolbarText()
         hideLoadingOverlay()
+        setInitialValuesForNumberPickers()
     }
 
     private fun cleanTopToolbarText() {

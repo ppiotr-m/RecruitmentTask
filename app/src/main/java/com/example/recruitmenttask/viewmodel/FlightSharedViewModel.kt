@@ -1,5 +1,6 @@
 package com.example.recruitmenttask.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.recruitmenttask.exceptions.FailedRemoteResponse
 import com.example.recruitmenttask.model.FlightsRequest
@@ -7,6 +8,7 @@ import com.example.recruitmenttask.model.StationsResponse
 import com.example.recruitmenttask.model.local.FlightListModel
 import com.example.recruitmenttask.repository.Repository
 import com.example.recruitmenttask.utils.ConstantValues.Companion.INITIAL_MAX_PRICE
+import com.example.recruitmenttask.utils.ConstantValues.Companion.TAG
 import com.example.recruitmenttask.utils.StationCodeRetriver
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -99,6 +101,9 @@ class FlightSharedViewModel(private val repository: Repository) : ViewModel() {
     }
 
     private fun validateInput(): Boolean {
+
+        Log.d(TAG, "Passanger sum" + (adultsCount + teensCount + childrenCount))
+
         val isInputValid = ((originStationCode != null && destinationStationCode != null)
                 && (date.value!!.isAfter(LocalDate.now()) || date.value!!.isEqual(LocalDate.now()))
                 && ((adultsCount + teensCount + childrenCount) > 0))
