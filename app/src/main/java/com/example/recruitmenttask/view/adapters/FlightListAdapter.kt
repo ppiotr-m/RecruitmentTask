@@ -11,7 +11,7 @@ import com.example.recruitmenttask.view.interfaces.FlightListElementOnClickListe
 import java.time.LocalDateTime
 
 class FlightListAdapter(
-    private val data: FlightListModel,
+    private var data: FlightListModel,
     private val listener: FlightListElementOnClickListener
 ) :
     RecyclerView.Adapter<FlightListAdapter.ViewHolder>() {
@@ -35,6 +35,10 @@ class FlightListAdapter(
 
     override fun getItemCount(): Int {
         return data.flightsList.size
+    }
+
+    fun updateData(flightListModel: FlightListModel) {
+        data = flightListModel
     }
 
     class ViewHolder(view: View, private val listener: FlightListElementOnClickListener) :

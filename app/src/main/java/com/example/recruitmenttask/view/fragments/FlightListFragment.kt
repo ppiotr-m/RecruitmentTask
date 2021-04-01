@@ -62,15 +62,15 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
 
     private fun setupObservers() {
         flightSharedViewModel.flightsData.observe(viewLifecycleOwner, {
-            //  TODO Change it to updating data instead of creating new adapter
             if(it != null) {
                 setToolbarText()
 
                 if(binding.flightsList.adapter == null) {
                     binding.flightsList.adapter = FlightListAdapter(it, this)
                 } else {
-                    val adapter = binding.flightsList.adapter
-                    adapter!!.notifyDataSetChanged()
+                    val adapter = binding.flightsList.adapter as FlightListAdapter
+                    adapter.updateData(it)
+                    adapter.notifyDataSetChanged()
                 }
 
                 if(it.flightsList.isEmpty()){
