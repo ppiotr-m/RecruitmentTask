@@ -64,9 +64,11 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
 
     private fun setupObservers() {
         flightSharedViewModel.flightsData.observe(viewLifecycleOwner, {
+            //  TODO Change it to updating data instead of creating new adapter
             if(it != null) {
                 binding.flightsList.adapter =
                     AlternateFlightListAdapter(it, this)
+
                 if(it.flightsList.isEmpty()){
                     showNoFlightsOverlay()
                 } else {
