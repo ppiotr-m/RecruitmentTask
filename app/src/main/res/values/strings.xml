@@ -23,4 +23,5 @@
     </string-array>
     <string name="no_flights_found">No flights were found for given parameters</string>
     <string name="loading">Loading…</string>
+    <string name="no_internet_msg">There is no Internet connection which this app requires</string>
 </resources>

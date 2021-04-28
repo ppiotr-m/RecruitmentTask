@@ -25,9 +25,6 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var flightSharedViewModel: FlightSharedViewModel
     private lateinit var navController: NavController
     private val datePickerDialogMonthOffset = 1
-    //  Since when navigation is triggered with observing, this variable prevents navigating when
-    //  reentering this fragment from following fragment with back button
-    private var shouldNavigate: AtomicBoolean = AtomicBoolean(false)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,8 +60,6 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             showDatePickerDialog()
         }
         binding.searchBtn.setOnClickListener {
-            shouldNavigate.set(true)
-            showLoadingOverlay()
             flightSharedViewModel.searchForFlights()
         }
     }
@@ -80,8 +75,9 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun initViewModel() {
         flightSharedViewModel = ViewModelProvider(
             requireActivity(),
-            ViewModelInjection.provideViewModelFactory()
+            ViewModelInjection.provideViewModelFactory(requireActivity().application)
         ).get(FlightSharedViewModel::class.java)
+        flightSharedViewModel.init()
     }
 
     private fun setupAutoCompleteTextViews(stations: List<Station>) {
@@ -117,6 +113,19 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupObservers() {
+        flightSharedViewModel.noNetworkConnectionOnEntry.observe(viewLifecycleOwner, {
+            it.getContentIfNotHandled()?.let {
+                handleNoInternetOnEntry()
+            }
+        })
+        flightSharedViewModel.noNetworkConnection.observe(viewLifecycleOwner, {
+            it.getContentIfNotHandled()?.let{
+                handleNoInternet()
+            }
+        })
+        flightSharedViewModel.dataFromRemoteIsLoading.observe(viewLifecycleOwner, {
+            showLoadingOverlay()
+        })
         flightSharedViewModel.stations.observe(viewLifecycleOwner, {
             setupAutoCompleteTextViews(it.stations)
             hideLoadingOverlay()
@@ -125,22 +134,21 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             binding.selectedDateTV.text = it.toString()
         })
         flightSharedViewModel.inputErrorOccurred.observe(viewLifecycleOwner, {
-            if(it == true) {
+            it.getContentIfNotHandled()?.let {
                 hideLoadingOverlay()
                 Toast.makeText(requireContext(), R.string.input_error_msg, Toast.LENGTH_LONG)
                     .show()
             }
         })
         flightSharedViewModel.networkErrorOccurred.observe(viewLifecycleOwner, {
-            if(it == true) {
+            it.getContentIfNotHandled()?.let {
                 hideLoadingOverlay()
                 Toast.makeText(requireContext(), R.string.network_error_msg, Toast.LENGTH_LONG)
                     .show()
             }
         })
-        flightSharedViewModel.flightsData.observe(viewLifecycleOwner, {
-            if(shouldNavigate.get() == true) {
-                shouldNavigate.set(false)
+        flightSharedViewModel.navigateToFlightsList.observe(viewLifecycleOwner, {
+            it.getContentIfNotHandled()?.let {
                 navigateToListFragment()
             }
         })
@@ -154,9 +162,9 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         DatePickerDialog(
             requireContext(),
             this,
-            flightSharedViewModel.date.value!!.year,
-            flightSharedViewModel.date.value!!.monthValue - datePickerDialogMonthOffset,
-            flightSharedViewModel.date.value!!.dayOfMonth
+            flightSharedViewModel.getYear(),
+            flightSharedViewModel.getMonth() - datePickerDialogMonthOffset,
+            flightSharedViewModel.getDay()
         ).show()
     }
 
@@ -202,5 +210,14 @@ class FlightSearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun hideLoadingOverlay() {
         binding.loadingMessageOverlay.visibility = View.GONE
         binding.searchFormContainer.visibility = View.VISIBLE
+    }
+
+    private fun handleNoInternetOnEntry() {
+        handleNoInternet()
+        requireActivity().finish()
+    }
+
+    private fun handleNoInternet() {
+        Toast.makeText(requireContext(), R.string.no_internet_msg, Toast.LENGTH_LONG).show()
     }
 }

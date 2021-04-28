@@ -66,7 +66,7 @@ class FlightListFragment : Fragment(), FlightListElementOnClickListener {
     private fun initViewModel() {
         flightSharedViewModel = ViewModelProvider(
             requireActivity(),
-            ViewModelInjection.provideViewModelFactory()
+            ViewModelInjection.provideViewModelFactory(requireActivity().application)
         ).get(FlightSharedViewModel::class.java)
     }
 
